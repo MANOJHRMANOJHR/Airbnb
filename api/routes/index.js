@@ -3,8 +3,8 @@ const router = express.Router();
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const path = require("path");
-const fs = require("fs");
-const axios = require("axios");
+//const fs = require("fs");
+//const axios = require("axios");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -25,45 +25,15 @@ router.get('/', (req, res) => {
   });
 });
 
+
 // upload photo using image url
 router.post('/upload-by-link', async (req, res) => {
   try {
     const { link } = req.body;
-
-
-    // get file extension (example: .jpg, .png, etc.)
-    const ext = path.extname(link).split("?")[0] || ".jpg";
-    // give unique name
-    const fileName = "photo_" + Date.now() + ext;
-    // path where file will be stored
-    const filePath = path.join(
-      "C:/Users/mahes/Documents/all projects/airbnb(mern real)/api/public/Places",
-      fileName
-    );
-    // download the file and write to local folder
-    const response = await axios({
-      method: "get",
-      url: link,
-      responseType: "stream",
-    });
-    // pipe the data into a file
-    const writer = fs.createWriteStream(filePath);
-    response.data.pipe(writer);
-
-    writer.on("finish",async() => {
-      let result = await cloudinary.uploader.upload(link, {
+    let result = await cloudinary.uploader.upload(link, {
       folder: 'Airbnb/Places',
     });
-
     res.status(200).json(result.secure_url);
-    });
-
-
-    writer.on("error", (err) => {
-      console.error(err);
-      return res.status(500).json({  message: "File save failed" });
-    });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({
