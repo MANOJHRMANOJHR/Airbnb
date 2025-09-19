@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config();// important declaration to use process or environment variables
 const express = require("express");
 const cors = require("cors");
 const connectWithDB = require("./config/db");
@@ -47,8 +47,8 @@ app.use(express.json());
 // CORS
 app.use(
   cors({
-  //  origin: process.env.CLIENT_URL,
-  origin: "*",
+    origin: process.env.CLIENT_URL,
+  //origin: "*",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // List all methods explicitly
     allowedHeaders: ["Content-Type", "Authorization"], // Optional: Add allowed headers
