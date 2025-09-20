@@ -8,21 +8,13 @@ exports.isLoggedIn = async (req, res, next) => {
     const authHeader = req.header('Authorization'); // it might be undefined, so check it once
     const token = req.cookies.token || (authHeader && authHeader.replace('Bearer ', ''));
 
-
-   // console.log("Auth header:", authHeader);
-   // console.log(typeof authHeader);
-//console.log("Token extracted:", token);
-//console.log(typeof token);
-//console.log("Token extracted2:",authHeader.replace('Bearer ', ''));
-//console.log(typeof authHeader.replace('Bearer ', ''));
-
     if (!token  || token === "null" || token === "undefined" || token === "") {
          console.log("token not found");
         return res.status(401).json({
             success: false,
             message: 'Login first to access this page',
         });
-       
+
     }
 
     try {
