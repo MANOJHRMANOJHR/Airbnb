@@ -116,8 +116,6 @@ useEffect(() => {
 }, [location.pathname]);
 
 
-
-
 if(loading){
   return <Spinner/>;
 }

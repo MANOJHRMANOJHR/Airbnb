@@ -6,7 +6,14 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const connectWithDB = () => {
 
+//mongodb+srv://manojhr:manojMSMK00@cluster0.posmtzg.mongodb.net/myDatabase?retryWrites=true&w=majority
+//mongodb is the appended database
 
+/*
+const db = client.db("myDatabase");  // "myDatabase" may not exist yet
+const collection = db.collection("myCollection");
+await collection.insertOne({ name: "test" });  // Now the DB and collection are created
+*/
 
 const uri = process.env.DB_URL;
 
