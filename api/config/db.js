@@ -1,5 +1,5 @@
 //const mongoose = require('mongoose');
-
+require("dotenv").config();// important declaration to use process or environment variables
 const { MongoClient, ServerApiVersion } = require('mongodb');
 // false: passes the filter query to mongodb even if it is not in the schema and returns empty document
 //true: removes the filter query not defined in the schema and returns the all the document
