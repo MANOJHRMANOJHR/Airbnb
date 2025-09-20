@@ -34,27 +34,36 @@ function AppRoutes() {
     const {loading, setLoading , setUser} = auth;
 
     const [isok, setok] = useState(false);
-
+/*
   useEffect(() => {
-    // set the token on refreshing the website
+    / set the token on refreshing the website
     axiosInstance.defaults.headers.common[
       'Authorization'
     ] = `Bearer ${getItemFromLocalStorage('token')}`; //it can be undefined or null
   }, []);
-/*  here defaults is for  all http requests and common is for all methods (irrespective of get , put, post, delete etc) **/
+  */
+/*  here defaults is for  all http requests and common is for all methods (irrespective of get , put, post, delete etc) */
 /* HERE axiosInstance is the response got from an axios get request to a server along with the object containing withCredentials: true */
-
+/*
     useEffect(() => {
            const call = async () => {
                  const { data } = await axiosInstance.get('/user/auth');
-               if(data.user){  
+/*
+await axiosInstance.get('/user/auth')
+
+If the request succeeds → code continues to the if/else.
+
+If the request fails (e.g. 401 Unauthorized, network error, invalid token) → JavaScript throws an exception here, and execution jumps out of the function.
+
+/
+               if(data.user){      // <-- only reached if request succeeds 
                console.log(data.user);   
                setUser(data.user)
-               // in the localstorage the data will always be stored in the form of string though you not convert it
-               // while retriving it you need to do JSON.Parse()  
-               // this is different from sending data of io instances  to the server  
+               / in the localstorage the data will always be stored in the form of string though you not convert it
+               / while retriving it you need to do JSON.Parse()  
+               / this is different from sending data of io instances  to the server  
               
-               // save user and token in local storage
+               / save user and token in local storage
                 setItemsInLocalStorage('user', data.user)
                 setItemsInLocalStorage('token', data.token)
                 setok(true);
@@ -62,12 +71,52 @@ function AppRoutes() {
                 else{
                     setok(false);
                 }
-                setLoading(false);
+                setLoading(false);    // <-- only reached if request succeeds
+
            };
          call();
     }, [location.pathname]);
+    */
 // when this useeffect runs , the state changes and component rerenders because of ok , and the userprovider calls the function again and sets user  to null
 // to avoid this keep the userprovider in another component, so if it rerenderes it does not happen anything
+
+/*
+
+❌ Problems
+
+If /user/auth request throws an error (e.g., no token, bad token, network issue), your call() never reaches setLoading(false) → loading stays true → spinner never stops.
+
+You’re also setting axiosInstance.defaults.headers.common['Authorization'] in the first useEffect, but if getItemFromLocalStorage('token') returns null or undefined, you’re literally sending:
+
+Authorization: Bearer null
+
+which breaks the backend and results in a 401 + error → your loader never finishes.
+*/
+
+useEffect(() => {
+  const call = async () => {
+    try {
+      const { data } = await axiosInstance.get('/user/auth');
+      if (data.user) {
+        setUser(data.user);
+        setItemsInLocalStorage('user', data.user);
+        setItemsInLocalStorage('token', data.token);
+        setok(true);
+      } else {
+        setok(false);
+      }
+    } catch (error) {
+      console.error("Auth check failed:", error);
+      setok(false);
+    } finally {
+      setLoading(false); // always runs
+    }
+  };
+  call();
+}, [location.pathname]);
+
+
+
 
 if(loading){
   return <Spinner/>;
