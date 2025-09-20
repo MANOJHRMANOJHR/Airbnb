@@ -1,11 +1,11 @@
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 require("dotenv").config();// important declaration to use process or environment variables
-const { MongoClient, ServerApiVersion } = require('mongodb');
+//const { MongoClient, ServerApiVersion } = require('mongodb');
 // false: passes the filter query to mongodb even if it is not in the schema and returns empty document
 //true: removes the filter query not defined in the schema and returns the all the document
 
+/*
 const connectWithDB = () => {
-
 //mongodb+srv://manojhr:manojMSMK00@cluster0.posmtzg.mongodb.net/myDatabase?retryWrites=true&w=majority
 //mongodb is the appended database
 
@@ -15,9 +15,10 @@ const collection = db.collection("myCollection");
 await collection.insertOne({ name: "test" });  // Now the DB and collection are created
 */
 
-const uri = process.env.DB_URL;
+//const uri = process.env.DB_URL;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
+/*
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -42,11 +43,11 @@ async function run() {
 run().catch(console.dir);
 
 }
+*/
 
 
 
 
-/*
 const connectWithDB = () => {
   mongoose.set('strictQuery', false);
   mongoose
@@ -63,5 +64,5 @@ const connectWithDB = () => {
       
     });
 };
-*/
+
 module.exports = connectWithDB;
