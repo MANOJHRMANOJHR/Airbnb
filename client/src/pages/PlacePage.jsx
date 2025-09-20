@@ -24,11 +24,18 @@ const PlacePage = () => {
 
     setLoading(true);
 
-    const getPlace = async () => {
-      const { data } = await axiosInstance.get(`/places/${id}`);
-      setPlace(data.place);
-      setLoading(false);
-    };
+const getPlace = async () => {
+  try {
+    const { data } = await axiosInstance.get(`/places/${id}`);
+    setPlace(data.place || null); // default to null if undefined
+  } catch (err) {
+    console.error("Failed to fetch place:", err);
+    setPlace(null); // reset place if request fails
+  } finally {
+    setLoading(false); // always stop the loader
+  }
+};
+
     getPlace();
   }, [id]);
 
@@ -36,7 +43,7 @@ const PlacePage = () => {
     return <Spinner />;
   }
 
-  if (!place) {
+  if (!place || place === null ) {
     return;
   }
 /* onClick={() => setshowcal(false)}*/

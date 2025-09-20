@@ -102,10 +102,12 @@ Since in your code the document was retrieved with findById, it definitely alrea
 exports.getPlaces = async (req, res) => {
   try {
     const places = await Place.find();
+    console.log(places);
     res.status(200).json({
       places,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       message: 'Internal server error',
     });

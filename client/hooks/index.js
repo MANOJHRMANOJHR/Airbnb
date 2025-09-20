@@ -151,6 +151,7 @@ export const useProvidePlaces = () => {
     try {
         const { data } = await axiosInstance.get('/places');
         setPlaces(data.places || []);
+        console.log(data.places);
     } catch (err) {
         console.error("Failed to fetch places:", err);
         setPlaces([]);
