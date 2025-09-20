@@ -9,14 +9,14 @@ exports.isLoggedIn = async (req, res, next) => {
     const token = req.cookies.token || (authHeader && authHeader.replace('Bearer ', ''));
 
 
-    console.log("Auth header:", authHeader);
-    console.log(typeof authHeader);
-console.log("Token extracted:", token);
-console.log(typeof token);
-console.log("Token extracted2:",authHeader.replace('Bearer ', ''));
-console.log(typeof authHeader.replace('Bearer ', ''));
+   // console.log("Auth header:", authHeader);
+   // console.log(typeof authHeader);
+//console.log("Token extracted:", token);
+//console.log(typeof token);
+//console.log("Token extracted2:",authHeader.replace('Bearer ', ''));
+//console.log(typeof authHeader.replace('Bearer ', ''));
 
-    if (!token  || token === null || token === undefined) {
+    if (!token  || token === "null" || token === "undefined" || token === "") {
          console.log("token not found");
         return res.status(401).json({
             success: false,
